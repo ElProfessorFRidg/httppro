@@ -29,9 +29,7 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          # Stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # Exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Test with pytest
@@ -48,6 +46,7 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -56,17 +55,24 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install security tools
         run: |
           python -m pip install --upgrade pip
           pip install bandit safety
 
-      - name: Run security scan with bandit
+      - name: Run Bandit scan
         run: |
           bandit -r core/ plugins/ -f json -o bandit-report.json
+
+      - name: Run Safety check
+        run: |
+          safety check --full-report --json > safety-report.json
         continue-on-error: true
 
-      - name: Check dependencies with safety
-        run: |
-          safety check --json > safety-report.json
-        continue-on-error: true
+      - name: Upload security reports as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            bandit-report.json
+            safety-report.json
