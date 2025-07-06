@@ -65,9 +65,9 @@ jobs:
           bandit -r core/ plugins/ -f json -o bandit-report.json
         continue-on-error: true
 
-      - name: Run Safety check
+      - name: Run Safety scan
         run: |
-          safety check --json > safety-report.json
+          safety scan --json > safety-report.json
         continue-on-error: true
 
       - name: Upload security reports as artifacts
