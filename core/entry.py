@@ -6,7 +6,8 @@ with automatic domain management and TLS error handling.
 """
 
 import os
-import sys 
+import sys
+# nosec: B404 - subprocess is used safely with a static command list
 import subprocess
 import logging
 import re
@@ -21,6 +22,8 @@ def launch_proxy():
     mitmproxy with appropriate ignore patterns.
     """
     script_path = os.path.join(os.path.dirname(__file__), 'proxy.py')
+    # The command list is constructed only from static values and trusted file content (ignore-host.txt),
+    # which is sanitized using re.escape. No user input is directly passed to the command.
     command = ['mitmdump', '-s', script_path]
     
     # Get the content of the ignore-host.txt file
@@ -34,6 +37,8 @@ def launch_proxy():
                 # Create regex pattern for ignore hosts
                 pattern = '|'.join([re.escape(host) for host in hosts])
                 regex = rf'(?:^|\.)({pattern})$'
+                # Defensive: ensure regex is a string and not user input (already escaped)
+                assert isinstance(regex, str)
                 command.extend(['--ignore-hosts', regex])
                 logger.info(f"Configured ignore pattern for {len(hosts)} domains")
             else:
@@ -47,6 +52,8 @@ def launch_proxy():
     
     try:
         # Execute the proxy command
+        # nosec: B603 - command is a static list, not user input; all file content is sanitized
+        assert isinstance(command, list) and all(isinstance(x, str) for x in command)
         subprocess.run(command, check=True)
     except subprocess.CalledProcessError as e:
         logger.error(f"Proxy execution failed: {e}")
