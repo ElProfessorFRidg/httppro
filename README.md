@@ -1,5 +1,6 @@
 # HttpPro - Advanced MITM Proxy with TLS Error Management
 
+[![CI](https://github.com/ElProfessorFRidg/httppro/workflows/CI/badge.svg)](https://github.com/ElProfessorFRidg/httppro/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![mitmproxy](https://img.shields.io/badge/mitmproxy-10.0+-green.svg)](https://mitmproxy.org/)
@@ -26,17 +27,20 @@ HttpPro is an advanced HTTP/HTTPS proxy built on top of mitmproxy that automatic
 ### Installation
 
 1. Clone the repository:
+
 ```bash
-git clone https://github.com/yourusername/httppro.git
+git clone https://github.com/ElProfessorFRidg/httppro.git
 cd httppro
 ```
 
 2. Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 3. Start the proxy:
+
 ```bash
 python start.py
 ```
@@ -52,6 +56,7 @@ python start.py
 ```
 
 The proxy will:
+
 - Load existing domains from `ignore-host.txt` into the database
 - Start mitmproxy with automatic TLS error handling
 - Preserve any command-line `--ignore-hosts` configuration
@@ -61,34 +66,40 @@ The proxy will:
 HttpPro includes a comprehensive CLI tool for managing ignored domains:
 
 #### List domains
+
 ```bash
 python manage_db.py list                    # Active domains only
 python manage_db.py list --all             # All domains (active + inactive)
 ```
 
 #### Add a domain
+
 ```bash
 python manage_db.py add "example.com"                      # Origin: manual
 python manage_db.py add "example.com" --origin "custom"    # Custom origin
 ```
 
 #### Search for a domain
+
 ```bash
 python manage_db.py search "graph.facebook.com"
 ```
 
 #### View statistics
+
 ```bash
 python manage_db.py stats
 ```
 
 #### Import/Export domains
+
 ```bash
 python manage_db.py import domains.txt --origin "bulk_import"
 python manage_db.py export output.txt
 ```
 
 #### Deactivate a domain
+
 ```bash
 python manage_db.py remove "example.com"
 ```
@@ -164,6 +175,7 @@ CREATE TABLE ignore_hosts (
 ### Logging
 
 Logging is configured via `config/logging.yaml`. Logs are written to:
+
 - Console (INFO level and above)
 - `logs/httppro.log` (DEBUG level and above)
 - `logs/errors.log` (ERROR level and above)
@@ -171,11 +183,13 @@ Logging is configured via `config/logging.yaml`. Logs are written to:
 ## 🧪 Testing
 
 Run the test suite:
+
 ```bash
 python -m pytest tests/
 ```
 
 Run with coverage:
+
 ```bash
 python -m pytest tests/ --cov=core --cov=plugins
 ```
@@ -202,7 +216,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- Create an [issue](https://github.com/yourusername/httppro/issues) for bug reports or feature requests
+- Create an [issue](https://github.com/ElProfessorFRidg/httppro/issues) for bug reports or feature requests
 - Check the [documentation](docs/) for detailed guides
 - See [examples](examples/) for usage examples
 
