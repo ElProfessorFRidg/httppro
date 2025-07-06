@@ -13,6 +13,7 @@ db = IgnoreHostsDB(db_path=None)
 ```
 
 **Parameters:**
+
 - `db_path` (Optional[str]): Custom database file path. If None, uses default location.
 
 #### Methods
@@ -26,10 +27,12 @@ success = db.add_domain("example.com", "manual")
 ```
 
 **Parameters:**
+
 - `domain` (str): Domain name to add
 - `origin` (str): Origin of the domain (e.g., "manual", "tls_error", "file_import")
 
 **Returns:**
+
 - `bool`: True if domain was newly added, False if it already existed (but was updated)
 
 ##### get_active_domains()
@@ -41,6 +44,7 @@ domains = db.get_active_domains()
 ```
 
 **Returns:**
+
 - `List[str]`: List of active domain names
 
 ##### get_domain_info(domain)
@@ -52,9 +56,11 @@ info = db.get_domain_info("example.com")
 ```
 
 **Parameters:**
+
 - `domain` (str): Domain name to look up
 
 **Returns:**
+
 - `Optional[Tuple]`: (domain, origin, date_added, last_seen, count, active) or None if not found
 
 ##### remove_domain(domain)
@@ -66,9 +72,11 @@ success = db.remove_domain("example.com")
 ```
 
 **Parameters:**
+
 - `domain` (str): Domain name to deactivate
 
 **Returns:**
+
 - `bool`: True if domain was found and deactivated, False otherwise
 
 ##### get_stats()
@@ -80,6 +88,7 @@ stats = db.get_stats()
 ```
 
 **Returns:**
+
 - `dict`: Statistics including total_domains, active_domains, inactive_domains, and origins breakdown
 
 ##### import_from_file(file_path, origin)
@@ -91,10 +100,12 @@ count = db.import_from_file("domains.txt", "bulk_import")
 ```
 
 **Parameters:**
+
 - `file_path` (str): Path to file containing domains (one per line)
 - `origin` (str): Origin to assign to imported domains
 
 **Returns:**
+
 - `int`: Number of domains successfully imported
 
 ##### export_to_file(file_path)
@@ -106,9 +117,11 @@ success = db.export_to_file("output.txt")
 ```
 
 **Parameters:**
+
 - `file_path` (str): Path where to write the domains
 
 **Returns:**
+
 - `bool`: True if export was successful, False otherwise
 
 ## Plugin API
@@ -152,6 +165,7 @@ python manage_db.py list [--all]
 ```
 
 Options:
+
 - `--all`: Include inactive domains
 
 #### add
@@ -163,6 +177,7 @@ python manage_db.py add "example.com" [--origin "manual"]
 ```
 
 Options:
+
 - `--origin`: Origin tag for the domain (default: "manual")
 
 #### remove
@@ -198,6 +213,7 @@ python manage_db.py import "domains.txt" [--origin "file_import"]
 ```
 
 Options:
+
 - `--origin`: Origin tag for imported domains (default: "file_import")
 
 #### export
