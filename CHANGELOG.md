@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-07-06
 
 ### Added
+
 - **Database-driven domain management**: SQLite database replaces file-based storage
 - **Comprehensive logging system**: Professional logging with multiple handlers and levels
 - **Origin tracking**: Track why each domain was added (TLS error, manual, import, etc.)
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Error handling**: Comprehensive error handling and recovery
 
 ### Changed
+
 - **Architecture**: Refactored to modular, plugin-based architecture
 - **Logging**: All logs now in English with professional formatting
 - **Comments**: All code comments converted to English
@@ -29,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Database schema**: Structured database with indexes and constraints
 
 ### Improved
+
 - **Performance**: Database queries with proper indexing
 - **Reliability**: Atomic transactions and proper error handling
 - **Maintainability**: Clear separation of concerns and modular design
@@ -38,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Technical Details
 
 #### Database Schema
+
 ```sql
 CREATE TABLE ignore_hosts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,6 +55,7 @@ CREATE TABLE ignore_hosts (
 ```
 
 #### New Origin Types
+
 - `existing_file`: Imported from existing ignore-host.txt
 - `file_import`: Imported via CLI tool
 - `tcp_tls_error`: TLS error detected in TCP layer
@@ -59,6 +64,7 @@ CREATE TABLE ignore_hosts (
 - `migration`: Added during system migration
 
 #### New CLI Commands
+
 - `list`: List domains with filtering options
 - `add`: Add domains with origin tracking
 - `remove`: Deactivate domains
@@ -67,11 +73,13 @@ CREATE TABLE ignore_hosts (
 - `import/export`: Bulk operations for domain management
 
 ### Backward Compatibility
+
 - Maintains compatibility with existing ignore-host.txt files
 - Automatic import of existing domains during startup
 - Continues to export to text file for compatibility
 
 ### Development Features
+
 - GitHub Actions CI/CD pipeline
 - Automated testing with pytest
 - Code quality checks with flake8
@@ -80,6 +88,7 @@ CREATE TABLE ignore_hosts (
 - Development dependencies management
 
 ### Documentation
+
 - Comprehensive README with usage examples
 - API documentation for all modules
 - Architecture overview and design principles
