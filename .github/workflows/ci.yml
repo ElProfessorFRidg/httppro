@@ -68,5 +68,5 @@ jobs:
 
       - name: Check dependencies with safety
         run: |
-          safety check --json --output safety-report.json
+          safety check --json > safety-report.json
         continue-on-error: true
