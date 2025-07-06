@@ -3,16 +3,16 @@ disable_existing_loggers: false
 
 formatters:
   standard:
-    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    datefmt: '%Y-%m-%d %H:%M:%S'
-  
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
   detailed:
-    format: '%(asctime)s - %(name)s - %(levelname)s - %(module)s:%(lineno)d - %(message)s'
-    datefmt: '%Y-%m-%d %H:%M:%S'
-  
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(module)s:%(lineno)d - %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
   json:
     format: '{"timestamp": "%(asctime)s", "logger": "%(name)s", "level": "%(levelname)s", "module": "%(module)s", "line": %(lineno)d, "message": "%(message)s"}'
-    datefmt: '%Y-%m-%d %H:%M:%S'
+    datefmt: "%Y-%m-%d %H:%M:%S"
 
 handlers:
   console:
@@ -26,7 +26,7 @@ handlers:
     level: DEBUG
     formatter: detailed
     filename: logs/httppro.log
-    maxBytes: 10485760  # 10MB
+    maxBytes: 10485760 # 10MB
     backupCount: 5
     encoding: utf8
 
@@ -35,7 +35,7 @@ handlers:
     level: ERROR
     formatter: detailed
     filename: logs/errors.log
-    maxBytes: 10485760  # 10MB
+    maxBytes: 10485760 # 10MB
     backupCount: 5
     encoding: utf8
 
@@ -44,7 +44,7 @@ handlers:
     level: INFO
     formatter: json
     filename: logs/httppro.json
-    maxBytes: 10485760  # 10MB
+    maxBytes: 10485760 # 10MB
     backupCount: 5
     encoding: utf8
 
@@ -53,17 +53,17 @@ loggers:
     level: DEBUG
     handlers: [console, file, error_file]
     propagate: false
-  
+
   httppro.database:
     level: INFO
     handlers: [console, file, json_file]
     propagate: false
-  
+
   httppro.tls:
     level: INFO
     handlers: [console, file, json_file]
     propagate: false
-  
+
   mitmproxy:
     level: WARNING
     handlers: [console, file]
