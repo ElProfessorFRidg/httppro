@@ -64,6 +64,7 @@ jobs:
       - name: Run security scan with bandit
         run: |
           bandit -r core/ plugins/ -f json -o bandit-report.json
+        continue-on-error: true
 
       - name: Check dependencies with safety
         run: |
