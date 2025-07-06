@@ -6,26 +6,53 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+      fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements-dev.txt
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt', 'requirements-dev.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+            ${{ runner.os }}-pip-
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pytest-cov flake8
+          pip install pytest pytest-cov flake8 bandit safety
+
+      - name: Cache test results
+        uses: actions/cache@v4
+        with:
+          path: |
+            .pytest_cache
+            .coverage
+          key: ${{ runner.os }}-tests-${{ matrix.python-version }}-${{ hashFiles('**/*.py') }}
 
       - name: Lint with flake8
         run: |
@@ -34,26 +61,38 @@ jobs:
 
       - name: Test with pytest
         run: |
-          pytest tests/ --cov=core --cov=plugins --cov-report=xml
+          pytest tests/ --cov=core --cov=plugins --cov-report=xml --cov-report=term-missing --tb=short -v
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   security:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Cache security tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-security-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-security-
 
       - name: Install security tools
         run: |
@@ -62,18 +101,48 @@ jobs:
 
       - name: Run Bandit scan
         run: |
-          bandit -r core/ plugins/ -f json -o bandit-report.json
-        continue-on-error: true
+          bandit -r core/ plugins/ -f json -o bandit-report.json || true
 
       - name: Run Safety scan
         run: |
-          safety scan --json > safety-report.json
-        continue-on-error: true
+          safety scan --json --output safety-report.json || true
 
-      - name: Upload security reports as artifacts
+      - name: Upload security reports
         uses: actions/upload-artifact@v4
         with:
-          name: security-reports
+          name: security-reports-${{ github.sha }}
           path: |
             bandit-report.json
             safety-report.json
+          retention-days: 30
+
+  build:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [test, security]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Build package
+        run: |
+          python -m build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 30
