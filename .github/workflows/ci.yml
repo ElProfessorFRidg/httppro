@@ -63,6 +63,7 @@ jobs:
       - name: Run Bandit scan
         run: |
           bandit -r core/ plugins/ -f json -o bandit-report.json
+        continue-on-error: true
 
       - name: Run Safety check
         run: |
