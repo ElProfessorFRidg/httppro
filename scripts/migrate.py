@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Migration script for upgrading from old HttpPro versions.
 
@@ -77,11 +76,11 @@ def main():
     
     if success:
         logger.info("Migration completed successfully")
-        print("✅ Migration completed!")
+        print("Migration completed!")
         print("Your old file has been backed up and a new database has been created.")
     else:
         logger.error("Migration failed")
-        print("❌ Migration failed. Check the logs for details.")
+        print("Migration failed. Check the logs for details.")
         sys.exit(1)
 
 if __name__ == "__main__":
