@@ -27,44 +27,44 @@ When you submit code changes, your submissions are understood to be under the sa
 
 ## Code Style
 
-* Follow PEP 8 style guidelines
-* Use meaningful variable and function names
-* Add docstrings to all functions and classes
-* Keep line length under 100 characters
-* Use type hints where appropriate
+- Follow PEP 8 style guidelines
+- Use meaningful variable and function names
+- Add docstrings to all functions and classes
+- Keep line length under 100 characters
+- Use type hints where appropriate
 
 ## Testing
 
-* Write unit tests for new functionality
-* Ensure all tests pass before submitting
-* Aim for good code coverage
-* Test on multiple Python versions if possible
+- Write unit tests for new functionality
+- Ensure all tests pass before submitting
+- Aim for good code coverage
+- Test on multiple Python versions if possible
 
 ## Commit Messages
 
-* Use clear and meaningful commit messages
-* Start with a capital letter
-* Use present tense ("Add feature" not "Added feature")
-* Reference issues and pull requests where applicable
+- Use clear and meaningful commit messages
+- Start with a capital letter
+- Use present tense ("Add feature" not "Added feature")
+- Reference issues and pull requests where applicable
 
 ## Bug Reports
 
 Use GitHub issues to report bugs. When filing an issue, please include:
 
-* A quick summary and/or background
-* Steps to reproduce
-* What you expected would happen
-* What actually happens
-* Notes (possibly including why you think this might be happening)
+- A quick summary and/or background
+- Steps to reproduce
+- What you expected would happen
+- What actually happens
+- Notes (possibly including why you think this might be happening)
 
 ## Feature Requests
 
 We use GitHub issues to track feature requests. Please provide:
 
-* A clear description of the feature
-* Why you think it would be useful
-* How it should work
-* Any alternatives you've considered
+- A clear description of the feature
+- Why you think it would be useful
+- How it should work
+- Any alternatives you've considered
 
 ## Development Setup
 
