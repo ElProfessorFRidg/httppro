@@ -1,4 +1,4 @@
-mitmproxy==8.1.1  # For CI/CD compatibility. For production, install mitmproxy>=10.0.0 manually if needed.
-click>=8.0.0
-colorama>=0.4.4
-PyYAML>=6.0
+mitmproxy==8.0.0  # For CI/CD compatibility. For production, install mitmproxy>=10.0.0 manually if needed.
+click==8.0.0
+colorama==0.4.4
+PyYAML==6.0
